@@ -5,7 +5,7 @@ using ArabicSupport;
 
 public class GameGuess : MonoBehaviour
 {
-    private int maxCharacters = 20;
+    private int maxCharacters = 10;
     private List<char> letters;
 
     [SerializeField] private ButtonAssigner assigner;

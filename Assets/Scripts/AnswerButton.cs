@@ -53,8 +53,8 @@ public class AnswerButton : MonoBehaviour
     {
         return isOccupied;
     }
-    public int GetReference()
+    public string GetAttachedLetter()
     {
-        return indexInKeyboard;
+        return letterTextUI.text;
     }
 }
