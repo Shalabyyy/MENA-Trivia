@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ButtonAssigner : MonoBehaviour
 {
+    [SerializeField] private GameObject answerButtonPrefab;
     [SerializeField] private List<LetterButton> buttons;
 
     void Start()
@@ -16,22 +17,12 @@ public class ButtonAssigner : MonoBehaviour
     {
         letters = letters.ToUpper();
         int charCounter;
-        int j = 0;
 
-        Debug.Log("Proccessing Buttons.. for String " + letters);
-        Debug.Log("1- Character Initalizing -> " + letters.ToCharArray()[0].ToString());
-        buttons[j].InitalizeButton(letters.ToCharArray()[0].ToString(), this.transform);
-
-        for (charCounter = 1; charCounter < letters.Length; charCounter++)
+        for (charCounter = 0; charCounter < letters.Length; charCounter++)
         {
-
-
-            LetterButton newButton = Instantiate(buttons[0].gameObject).GetComponent<LetterButton>();
-            //Debug.Log("2- Character Initalizing -> " + letters.ToCharArray()[charCounter].ToString());
+            LetterButton newButton = Instantiate(answerButtonPrefab).GetComponent<LetterButton>();
             newButton.InitalizeButton(letters.ToCharArray()[charCounter].ToString(), this.transform);
             buttons.Add(newButton);
-
-
 
         }
         Debug.Log("Proccessed " + charCounter + " Characters");

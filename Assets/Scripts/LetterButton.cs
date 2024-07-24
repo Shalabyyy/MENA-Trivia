@@ -15,14 +15,14 @@ public class LetterButton : MonoBehaviour
         letterText = GetComponentInChildren<Text>();
     }
 
-    public void InitalizeButton(string letter , Transform parent)
+    public void InitalizeButton(string letter, Transform parent)
     {
         transform.parent = parent;
         transform.localScale = Vector3.one;
-        Debug.Log("INIT -> " + letterText.text);
         letterText.text = letter;
         assignedLetter = letter;
         state = KeyboardButonState.AVAILABLE;
+        Debug.Log("INIT -> " + letterText.text);
         button.onClick.AddListener(RegisterButtonListner);
 
     }
@@ -36,10 +36,16 @@ public class LetterButton : MonoBehaviour
         button.interactable = false;
         state = KeyboardButonState.IN_ANSWER;
     }
+    public void OnLetterRemoved()
+    {
+        button.interactable = true;
+        state = KeyboardButonState.AVAILABLE;
+    }
     public string GetAssignedLetter()
     {
         return assignedLetter;
     }
+
 }
 
 public enum KeyboardButonState

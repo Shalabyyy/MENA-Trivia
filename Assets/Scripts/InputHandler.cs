@@ -24,7 +24,9 @@ public class InputHandler : MonoBehaviour
     {
         if (answerBar.isAnswerFull()) return;
 
-        answerBar.AddLetter(letterButton.GetAssignedLetter());
+        Debug.Log("Clicked on letter " +
+            letterButton.GetAssignedLetter());
+        answerBar.AddLetter(letterButton);
         letterButton.OnEntryAccepted();
 
     }

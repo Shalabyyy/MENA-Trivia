@@ -6,56 +6,59 @@ using UnityEngine.UI;
 
 public class AnswerBarAssigner : MonoBehaviour
 {
-    [SerializeField ]private List<Button> buttons;
+    [SerializeField] private GameObject answerButtonPrefab;
+    [SerializeField] private List<AnswerButton> buttons;
 
     private string correctAnswer;
-    private string currentAnswer;
     private bool isFull = false;
+    private bool isCorrect = false;
     private int index = 0;
-    void Start()
-    {
-        buttons.AddRange(GetComponentsInChildren<Button>());
-    }
+
     public void SetUpAnswerbar(string letters)
     {
         int charCounter;
-        int j = 0;
         correctAnswer = letters;
         Debug.Log("Proccessing Answer Buttons.. for String " + letters);
         for (charCounter = 0; charCounter < letters.Length; charCounter++)
         {
-            if (j == buttons.Count - 1)
-            {
-                Button newButton = Instantiate(buttons[0]);
-                newButton.transform.parent = this.transform;
-                newButton.transform.localScale = Vector3.one;
-                newButton.GetComponentInChildren<Text>().text = "";
-                buttons.Add(newButton);
-                j++;
-            }
-            else
-            {
-                buttons[j].GetComponentInChildren<Text>().text = "";
-                j++;
-            }
-
+            AnswerButton newButton = Instantiate(answerButtonPrefab).GetComponent<AnswerButton>();
+            newButton.Init(charCounter, this);
+            buttons.Add(newButton);
+            Debug.Log("New Button Added");
         }
         Debug.Log("Proccessed " + charCounter + " Characters");
     }
-    
-    public void AddLetter(string newLetter)
+
+    public void AddLetter(LetterButton letterButton)
     {
-        if(isAnswerFull())
+        if (isAnswerFull())
         {
             Debug.Log("Bar is Full, Not Accepting answers");
             return;
         }
-        currentAnswer += newLetter;
-        buttons[index].GetComponentInChildren<Text>().text = newLetter;
-        index++;
+        Debug.Log("Adding Letter at Point" + index);
+        buttons[index].CoupleLetterButton(letterButton);
+        GetNextIndex();
 
-        if (currentAnswer.Length == correctAnswer.Length) isFull = true;
-        if (currentAnswer.Equals(correctAnswer)) Debug.Log("Player Won!");
+
+    }
+    public void OnLetterRemoved(int indexAt)
+    {
+        GetNextIndex();
+    }
+    private void GetNextIndex()
+    {
+
+        for (int i = 0; index < buttons.Count; i++)
+        {
+            if (!buttons[i].isSlotOccupied())
+            {
+                index = i;
+                return;
+            }
+                
+        }
+         
 
     }
     public bool isAnswerFull()
