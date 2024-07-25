@@ -8,7 +8,9 @@ public class LetterButton : MonoBehaviour
     private Button button;
     private Text letterText;
     private string assignedLetter;
+    private bool isInAnswer;
     private KeyboardButonState state;
+
     void OnEnable()
     {
         button = GetComponent<Button>();
@@ -28,8 +30,19 @@ public class LetterButton : MonoBehaviour
     }
     private void RegisterButtonListner()
     {
-        Debug.Log("Registered");
         InputHandler.instance?.LetterClicked(this);
+    }
+    public void SetLetterIsSubstring()
+    {
+        isInAnswer = true;
+    }
+    public void OnLetterRevealedFaulty()
+    {
+        letterText.color = Color.red;
+        button.interactable = false;
+        button.onClick.RemoveAllListeners();
+        state = KeyboardButonState.REVEALED_FAULTY;
+
     }
     public void OnEntryAccepted()
     {
@@ -41,15 +54,25 @@ public class LetterButton : MonoBehaviour
         button.interactable = true;
         state = KeyboardButonState.AVAILABLE;
     }
+    public bool MatchState(KeyboardButonState wantedState)
+    {
+        return wantedState.Equals(state);
+    }
     public string GetAssignedLetter()
     {
         return assignedLetter;
     }
+    public bool isSubstringOfAnswer()
+    {
+        return isInAnswer;
+    }
+    
 
 }
 
 public enum KeyboardButonState
 {
     AVAILABLE,
-    IN_ANSWER
+    IN_ANSWER,
+    REVEALED_FAULTY
 }

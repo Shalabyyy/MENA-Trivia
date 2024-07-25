@@ -101,6 +101,10 @@ public class AnswerBarAssigner : MonoBehaviour
 
 
     }
+    private void ClearAnswerBar()
+    {
+        foreach (AnswerButton answer in buttons) answer.DecoupleLetterButton();
+    }
     public void CheckWinningCondition()
     {
         isCorrect = currentAnswer.Equals(correctAnswer);

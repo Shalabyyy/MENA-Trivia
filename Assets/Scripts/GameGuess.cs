@@ -5,12 +5,13 @@ using ArabicSupport;
 
 public class GameGuess : MonoBehaviour
 {
-    private int maxCharacters = 20;
+    private int maxCharacters = 25;
     private List<char> letters;
 
     [SerializeField] private ButtonAssigner assigner;
     [SerializeField] private AnswerBarAssigner answerBar;
     [SerializeField] private GuessEntry testEntry;
+    [SerializeField][Range( 1.1f , 2.5f)] private float characterIncreaseRate = 1.75f;
     [SerializeField] private bool isEnglish;
 
     void Start()
@@ -41,10 +42,14 @@ public class GameGuess : MonoBehaviour
         // Clear Previous Value and Create Char Array
         letters.Clear();
         System.Random random = new System.Random();
-        char[] brandLetters = brandname.ToUpper().ToCharArray();
+        brandname = brandname.ToUpper();
+        char[] brandLetters = brandname.ToCharArray();
 
+        int numberToGenerate =    (int)(brandname.Length * characterIncreaseRate);
+        numberToGenerate = Math.Clamp( numberToGenerate, brandname.Length, maxCharacters);
+        Debug.Log("Number of Letters to Generated " + numberToGenerate);
         //Add Characters to List
-        for (int i = 0; i < maxCharacters; i++)
+        for (int i = 0; i < numberToGenerate; i++)
         {
             if (i < brandname.Length)
             {
@@ -57,10 +62,11 @@ public class GameGuess : MonoBehaviour
                 else letters.Add((char)random.Next(0x0621, 0x0652 + 1));
             }
         }
+        Debug.Log("Total Buttons Generated =" + letters.Count);
         DisplayStringInEditor(isEnglish);
         FisherYatesRandomize();
         DisplayStringInEditor(isEnglish);
-        assigner.AssignButtonCharacters(ConvertCharacterListToString());
+        assigner.AssignButtonCharacters(ConvertCharacterListToString()  , brandname);
 
     }
     private void FisherYatesRandomize()
