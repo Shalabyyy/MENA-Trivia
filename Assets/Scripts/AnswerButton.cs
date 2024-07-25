@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AnswerButton : MonoBehaviour
 {
+    private bool isWhiteSpace;
     private int indexInKeyboard;
     private LetterButton assignedButton;
     private AnswerBarAssigner answerBar;
@@ -15,6 +16,7 @@ public class AnswerButton : MonoBehaviour
 
     public void Init (int index , AnswerBarAssigner parent)
     {
+        
         indexInKeyboard = index;
         answerBar = parent;
 
@@ -26,8 +28,12 @@ public class AnswerButton : MonoBehaviour
         transform.parent = answerBar.transform;
         transform.localScale = Vector3.one;  
         letterTextUI.text = "";
-        
-        button.onClick.AddListener(DecoupleLetterButton);
+
+        if (index < 0)
+        {
+            InitalizeWhiteSpaceButton();
+        }
+        else button.onClick.AddListener(DecoupleLetterButton);
     }
 
     public void CoupleLetterButton(LetterButton buttonPair)
@@ -56,5 +62,12 @@ public class AnswerButton : MonoBehaviour
     public string GetAttachedLetter()
     {
         return letterTextUI.text;
+    }
+    private void InitalizeWhiteSpaceButton()
+    {
+        GetComponent<Image>().enabled = false;
+        button.transition = Selectable.Transition.None;
+        button.interactable = false;
+        transform.name = "White Space Button";
     }
 }

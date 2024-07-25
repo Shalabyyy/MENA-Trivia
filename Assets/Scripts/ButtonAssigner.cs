@@ -16,14 +16,18 @@ public class ButtonAssigner : MonoBehaviour
     public void AssignButtonCharacters(string letters)
     {
         letters = letters.ToUpper();
+        char[] charachterArray = letters.ToCharArray();
         int charCounter;
 
-        for (charCounter = 0; charCounter < letters.Length; charCounter++)
+        for (charCounter = 0; charCounter < charachterArray.Length; charCounter++)
         {
-            LetterButton newButton = Instantiate(answerButtonPrefab).GetComponent<LetterButton>();
-            newButton.InitalizeButton(letters.ToCharArray()[charCounter].ToString(), this.transform);
-            buttons.Add(newButton);
-
+            if (!char.IsWhiteSpace(charachterArray[charCounter]))
+            {
+                LetterButton newButton = Instantiate(answerButtonPrefab).GetComponent<LetterButton>();
+                newButton.InitalizeButton(charachterArray[charCounter].ToString(), this.transform);
+                buttons.Add(newButton);
+            }
+            else Debug.LogWarning("White Space Detected at Keyboard Generation");
         }
         Debug.Log("Proccessed " + charCounter + " Characters");
 

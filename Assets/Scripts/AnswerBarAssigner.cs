@@ -18,14 +18,26 @@ public class AnswerBarAssigner : MonoBehaviour
     public void SetUpAnswerbar(string letters)
     {
         int charCounter;
-        correctAnswer = letters;
+        correctAnswer = letters.Replace(" ", "");
+        char[] letterArray = letters.ToCharArray();
         Debug.Log("Proccessing Answer Buttons.. for String " + letters);
-        for (charCounter = 0; charCounter < letters.Length; charCounter++)
+        for (charCounter = 0; charCounter < letterArray.Length; charCounter++)
         {
             AnswerButton newButton = Instantiate(answerButtonPrefab).GetComponent<AnswerButton>();
-            newButton.Init(charCounter, this);
-            buttons.Add(newButton);
-            Debug.Log("New Button Added");
+
+            if (char.IsWhiteSpace(letterArray[charCounter]))
+            {
+                newButton.Init(-charCounter, this);
+                Debug.Log("New Whitespace Added");
+
+            }
+            else
+            {
+                newButton.Init(charCounter, this);
+                buttons.Add(newButton);
+                Debug.Log("New Button Added");
+            }
+
         }
         Debug.Log("Proccessed " + charCounter + " Characters");
     }
@@ -64,7 +76,7 @@ public class AnswerBarAssigner : MonoBehaviour
             else
             {
                 currentAnswer += buttons[i].GetAttachedLetter();
-                
+
             }
 
         }
