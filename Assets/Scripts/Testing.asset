@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Testing
   m_EditorClassIdentifier: 
   logo: {fileID: 0}
-  nameEN: Mcdonalds
+  nameEN: egyptair
   nameAR: "\u0645\u0627\u0643\u062F\u0648\u0646\u0627\u0644\u062F\u0632"
   hintEN: PARA PA PA PA
   hintAR: 

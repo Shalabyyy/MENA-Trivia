@@ -20,7 +20,7 @@ public class GameGuess : MonoBehaviour
         Debug.Log("Genreating for Arabic Word: " + ArabicFixer.Fix(testEntry.nameAR));
         //GenerateLetters(testEntry);
         //DisplayStringInEditor();
-        isEnglish = true;
+        //isEnglish = true;
         Debug.Log("Genreating for English Word: " + testEntry.nameEN);
         GenerateLetters(testEntry);
 
@@ -33,46 +33,23 @@ public class GameGuess : MonoBehaviour
         if (isEnglish)
         {
             answerBar.SetUpAnswerbar(level.nameEN.ToUpper());
-            ReturnEnglishList(level.nameEN.ToUpper());       
+            ReturnLetterList(level.nameEN);       
         }
 
         else
         {
             answerBar.SetUpAnswerbar(level.nameAR);
-            ReturnArabicList(level.nameAR);
+            ReturnLetterList(level.nameAR);
         }
     }
 
-    private void ReturnEnglishList(string brandname)
+    
+    private void ReturnLetterList(string brandname)
     {
-        //Clear Previous Value and Create Char Array
-        letters.Clear();
-        brandname.ToUpper();
-        char[] brandLetters = brandname.ToCharArray();
-
-        //Add Characters to List
-        for (int i = 0; i < maxCharacters; i++)
-        {
-            if (i < brandname.Length)
-            {
-                letters.Add(brandLetters[i]);
-            }
-            else
-            {
-                letters.Add((char)('A' + UnityEngine.Random.Range(0, 26)));
-            }
-        }
-        DisplayStringInEditor(true);
-        FisherYatesRandomize();
-        DisplayStringInEditor(true);
-        assigner.AssignButtonCharacters(ConvertCharacterListToString());
-    }
-    private void ReturnArabicList(string brandname)
-    {
-        //Clear Previous Value and Create Char Array
+        // Clear Previous Value and Create Char Array
         letters.Clear();
         System.Random random = new System.Random();
-        char[] brandLetters = brandname.ToCharArray();
+        char[] brandLetters = brandname.ToUpper().ToCharArray();
 
         //Add Characters to List
         for (int i = 0; i < maxCharacters; i++)
@@ -83,14 +60,16 @@ public class GameGuess : MonoBehaviour
             }
             else
             {
-                letters.Add((char)random.Next(0x0621, 0x0652 + 1));
+                if(isEnglish) letters.Add((char)('A' + UnityEngine.Random.Range(0, 26)));
+                else letters.Add((char)random.Next(0x0621, 0x0652 + 1));
             }
         }
-        DisplayStringInEditor(false);
+        DisplayStringInEditor(isEnglish);
         FisherYatesRandomize();
-        DisplayStringInEditor(false);
-    }
+        DisplayStringInEditor(isEnglish);
+        assigner.AssignButtonCharacters(ConvertCharacterListToString());
 
+    }
     private void FisherYatesRandomize()
     {
         int j; char temp;

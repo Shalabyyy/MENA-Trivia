@@ -17,7 +17,7 @@ public class LetterButton : MonoBehaviour
 
     public void InitalizeButton(string letter, Transform parent)
     {
-        transform.parent = parent;
+        transform.SetParent(parent);
         transform.localScale = Vector3.one;
         letterText.text = letter;
         assignedLetter = letter;
