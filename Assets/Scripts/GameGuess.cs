@@ -14,6 +14,9 @@ public class GameGuess : MonoBehaviour
     [SerializeField][Range( 1.1f , 2.5f)] private float characterIncreaseRate = 1.75f;
     [SerializeField] private bool isEnglish;
 
+    //Arabic Letters
+    public static List<int> arabicLetterList = new ArabicLetterLibrary().addresses;
+
     void Start()
     {
         letters = new List<char>();
@@ -100,8 +103,11 @@ public class GameGuess : MonoBehaviour
     public static char GetRandomChar(bool isEngllishChar)
     {
 
-        System.Random random = new System.Random();
         if (isEngllishChar) return (char)('A' + UnityEngine.Random.Range(0, 26));
-        else return (char)random.Next(0x0621, 0x0652 + 1);
+        else
+        {
+            int listLocation = UnityEngine.Random.Range(0, arabicLetterList.Count - 1);
+            return (char)arabicLetterList[listLocation];
+        }
     }
 }

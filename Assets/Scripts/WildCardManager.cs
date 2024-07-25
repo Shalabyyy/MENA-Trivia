@@ -8,7 +8,6 @@ public class WildCardManager : MonoBehaviour
     private ButtonAssigner keyboard;
     private AnswerBarAssigner answerBar;
     private GameGuess generator;
-    private bool wasFiftyPercentActivated;
 
     private void Start()
     {
