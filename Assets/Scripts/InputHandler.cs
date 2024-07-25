@@ -29,4 +29,13 @@ public class InputHandler : MonoBehaviour
         letterButton.OnEntryAccepted();
 
     }
+    public void LetterFrozen(LetterButton letterButton)
+    {
+        if (answerBar.isAnswerFull()) return;
+
+        Debug.Log("Frozen letter " + letterButton.GetAssignedLetter());
+        answerBar.AddFrozenLetter(letterButton);
+        letterButton.OnButtonFreezed();
+    }
+    
 }

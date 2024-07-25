@@ -13,7 +13,7 @@ public class AnswerButton : MonoBehaviour
     private Text letterTextUI;
     private Button button;
     private bool isOccupied = false;
-
+    private bool isFrozen = false;
     public void Init (int index , AnswerBarAssigner parent)
     {
         
@@ -55,6 +55,14 @@ public class AnswerButton : MonoBehaviour
         isOccupied = false;
         answerBar.OnLetterRemoved(indexInKeyboard);
     }
+    public void FreezeLetter()
+    {
+        Debug.Log("Freezing Letter");
+        if (!isOccupied) return;
+        letterTextUI.color = Color.green;
+        button.interactable = false;
+        isFrozen = true;
+    }
     public bool isSlotOccupied()
     {
         return isOccupied;
@@ -62,6 +70,10 @@ public class AnswerButton : MonoBehaviour
     public string GetAttachedLetter()
     {
         return letterTextUI.text;
+    }
+    public bool isFrozenButton()
+    {
+        return isFrozen;
     }
     private void InitalizeWhiteSpaceButton()
     {

@@ -52,8 +52,34 @@ public class ButtonAssigner : MonoBehaviour
             }
         }
     }
-    public void AddFirstThreeLetters()
+    [ContextMenu("Add First 3 Characters")]
+    public void AddFirstThreeLetters(string substringOfThree)
     {
+        substringOfThree = substringOfThree.ToUpper();
 
+        Debug.Log("Charachters Recieved " + substringOfThree);
+
+        foreach (char letter in substringOfThree.ToCharArray())
+        {
+            //Find the button where the letter is stored.
+            LetterButton result = buttons.Find( button => button.GetAssignedLetter().Equals(letter.ToString()));
+            result?.FreezeButton();
+        }
     }
+    [ContextMenu("Re Roll Faulty Letters")]
+
+    public void ReRollFaultyLetterButtons(bool isEnglish)
+    {
+        foreach(LetterButton button in buttons)
+        {
+            if (!button.isSubstringOfAnswer() && button.MatchState(KeyboardButonState.AVAILABLE))
+            {
+                button.RerollButton(GameGuess.GetRandomChar(isEnglish).ToString());
+            }
+
+        }
+    }
+
+   
 }
+

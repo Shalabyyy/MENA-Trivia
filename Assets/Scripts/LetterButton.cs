@@ -28,20 +28,38 @@ public class LetterButton : MonoBehaviour
         button.onClick.AddListener(RegisterButtonListner);
 
     }
+    public void RerollButton(string letter)
+    {
+        if (!MatchState(KeyboardButonState.AVAILABLE)) return;
+        letterText.text = letter;
+        assignedLetter = letter;
+    }
     private void RegisterButtonListner()
     {
         InputHandler.instance?.LetterClicked(this);
+    }
+    public void FreezeButton()
+    {
+        InputHandler.instance?.LetterFrozen(this);
+
     }
     public void SetLetterIsSubstring()
     {
         isInAnswer = true;
     }
+
     public void OnLetterRevealedFaulty()
     {
         letterText.color = Color.red;
         button.interactable = false;
         button.onClick.RemoveAllListeners();
         state = KeyboardButonState.REVEALED_FAULTY;
+
+    }
+    public void OnButtonFreezed() {
+        button.interactable = false;
+        letterText.color = Color.green;
+        state = KeyboardButonState.FROZEN;
 
     }
     public void OnEntryAccepted()
@@ -74,5 +92,6 @@ public enum KeyboardButonState
 {
     AVAILABLE,
     IN_ANSWER,
-    REVEALED_FAULTY
+    REVEALED_FAULTY,
+    FROZEN
 }

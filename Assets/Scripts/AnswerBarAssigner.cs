@@ -65,8 +65,12 @@ public class AnswerBarAssigner : MonoBehaviour
         Debug.Log("Adding Letter at Point" + index);
         buttons[index].CoupleLetterButton(letterButton);
         GetNextIndex();
-
-
+    }
+    public void AddFrozenLetter(LetterButton letterButton)
+    {
+        int indexFrozen = index;
+        AddLetter(letterButton);
+        buttons[indexFrozen].FreezeLetter();
     }
     public void OnLetterRemoved(int indexAt)
     {
@@ -101,9 +105,12 @@ public class AnswerBarAssigner : MonoBehaviour
 
 
     }
-    private void ClearAnswerBar()
+    public void ClearAnswerBar()
     {
-        foreach (AnswerButton answer in buttons) answer.DecoupleLetterButton();
+        foreach (AnswerButton answer in buttons)
+        {
+            if(!answer.isFrozenButton()) answer.DecoupleLetterButton();
+        }
     }
     public void CheckWinningCondition()
     {
@@ -112,6 +119,10 @@ public class AnswerBarAssigner : MonoBehaviour
         {
             Debug.Log("Player Won");
         }
+    }
+    public string GetFirstCorrectThreeCharachters()
+    {
+        return correctAnswer.Substring(0, 3);
     }
     public bool isAnswerFull()
     {

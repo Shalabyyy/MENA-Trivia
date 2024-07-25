@@ -19,12 +19,9 @@ public class GameGuess : MonoBehaviour
         letters = new List<char>();
 
         Debug.Log("Genreating for Arabic Word: " + ArabicFixer.Fix(testEntry.nameAR));
-        //GenerateLetters(testEntry);
-        //DisplayStringInEditor();
-        //isEnglish = true;
+
         Debug.Log("Genreating for English Word: " + testEntry.nameEN);
         GenerateLetters(testEntry);
-
 
     }
 
@@ -41,7 +38,6 @@ public class GameGuess : MonoBehaviour
     {
         // Clear Previous Value and Create Char Array
         letters.Clear();
-        System.Random random = new System.Random();
         brandname = brandname.ToUpper();
         char[] brandLetters = brandname.ToCharArray();
 
@@ -58,8 +54,7 @@ public class GameGuess : MonoBehaviour
             else
             {
                 //TODO Fetch Arabic Letter Addresses from button ArabicSupprt/GeneralArabicLetters Enum
-                if (isEnglish) letters.Add((char)('A' + UnityEngine.Random.Range(0, 26)));
-                else letters.Add((char)random.Next(0x0621, 0x0652 + 1));
+                letters.Add(GetRandomChar(isEnglish));
             }
         }
         Debug.Log("Total Buttons Generated =" + letters.Count);
@@ -97,5 +92,16 @@ public class GameGuess : MonoBehaviour
         foreach (char letter in letters)
             result += letter;
         return result;
+    }
+    public bool isEnglishLang()
+    {
+        return isEnglish;
+    }
+    public static char GetRandomChar(bool isEngllishChar)
+    {
+
+        System.Random random = new System.Random();
+        if (isEngllishChar) return (char)('A' + UnityEngine.Random.Range(0, 26));
+        else return (char)random.Next(0x0621, 0x0652 + 1);
     }
 }
