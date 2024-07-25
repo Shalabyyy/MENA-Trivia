@@ -29,21 +29,13 @@ public class GameGuess : MonoBehaviour
 
     private void GenerateLetters(GuessEntry level)
     {
-        //TODO Handle White Space
-        if (isEnglish)
-        {
-            answerBar.SetUpAnswerbar(level.nameEN.ToUpper());
-            ReturnLetterList(level.nameEN);       
-        }
+        string result = isEnglish ? level.nameEN : level.nameAR;
+        answerBar.SetUpAnswerbar(result, isEnglish);
+        ReturnLetterList(result);
 
-        else
-        {
-            answerBar.SetUpAnswerbar(level.nameAR);
-            ReturnLetterList(level.nameAR);
-        }
     }
 
-    
+
     private void ReturnLetterList(string brandname)
     {
         // Clear Previous Value and Create Char Array
@@ -60,7 +52,8 @@ public class GameGuess : MonoBehaviour
             }
             else
             {
-                if(isEnglish) letters.Add((char)('A' + UnityEngine.Random.Range(0, 26)));
+                //TODO Fetch Arabic Letter Addresses from button ArabicSupprt/GeneralArabicLetters Enum
+                if (isEnglish) letters.Add((char)('A' + UnityEngine.Random.Range(0, 26)));
                 else letters.Add((char)random.Next(0x0621, 0x0652 + 1));
             }
         }

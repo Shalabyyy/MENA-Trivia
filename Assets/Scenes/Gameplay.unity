@@ -1045,7 +1045,7 @@ MonoBehaviour:
   assigner: {fileID: 1863063493}
   answerBar: {fileID: 1589030307}
   testEntry: {fileID: 11400000, guid: 2e721dfb78794944b86ce732b278bb51, type: 2}
-  isEnglish: 1
+  isEnglish: 0
 --- !u!1 &1172171180
 GameObject:
   m_ObjectHideFlags: 0

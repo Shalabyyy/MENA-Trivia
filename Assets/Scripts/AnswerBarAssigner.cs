@@ -9,20 +9,33 @@ public class AnswerBarAssigner : MonoBehaviour
     [SerializeField] private GameObject answerButtonPrefab;
     [SerializeField] private List<AnswerButton> buttons;
 
+    private GridLayoutGroup answerbarLayout;
     private string correctAnswer;
     private string currentAnswer;
     private bool isFull = false;
     private bool isCorrect = false;
     private int index = 0;
 
-    public void SetUpAnswerbar(string letters)
+
+
+    public void SetUpAnswerbar(string letters, bool isEnglish)
     {
+        /*To Avoid Confusion and Collision with input systm, we can make the following: 
+         * keyboard Grid start from the right for arabic
+         * start from the left in English
+         * since the first character in both langauges are indexed at 0
+         * */
+        answerbarLayout = GetComponent<GridLayoutGroup>();
+        answerbarLayout.startCorner = isEnglish ? GridLayoutGroup.Corner.UpperLeft : GridLayoutGroup.Corner.UpperRight;
+
         int charCounter;
         correctAnswer = letters.Replace(" ", "");
         char[] letterArray = letters.ToCharArray();
         Debug.Log("Proccessing Answer Buttons.. for String " + letters);
+
         for (charCounter = 0; charCounter < letterArray.Length; charCounter++)
         {
+            Debug.Log("Letter at Index " + charCounter + " = " + letterArray[charCounter]);
             AnswerButton newButton = Instantiate(answerButtonPrefab).GetComponent<AnswerButton>();
 
             if (char.IsWhiteSpace(letterArray[charCounter]))
