@@ -80,6 +80,14 @@ public class ButtonAssigner : MonoBehaviour
         }
     }
 
-   
+    public void OnLanguageChanged()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Destroy(buttons[i].gameObject);
+        }
+        buttons.Clear();
+    }
+
 }
 

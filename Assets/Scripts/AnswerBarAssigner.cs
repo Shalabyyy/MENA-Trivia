@@ -133,4 +133,14 @@ public class AnswerBarAssigner : MonoBehaviour
         return isCorrect;
     }
 
+    public void ReRollBar()
+    {
+        for(int i = 0; i < buttons.Count; i++)
+        {
+            Destroy(buttons[i].gameObject);
+        }
+        buttons.Clear();
+        currentAnswer = "";
+        index = 0;
+    }
 }

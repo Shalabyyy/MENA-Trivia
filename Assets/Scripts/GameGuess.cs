@@ -110,4 +110,10 @@ public class GameGuess : MonoBehaviour
             return (char)arabicLetterList[listLocation];
         }
     }
+    public void ToggleLanguage()
+    {
+        isEnglish = !isEnglish;
+        letters.Clear();
+        GenerateLetters(testEntry);
+    }
 }
