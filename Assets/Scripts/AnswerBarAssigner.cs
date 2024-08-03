@@ -9,6 +9,7 @@ public class AnswerBarAssigner : MonoBehaviour
     [SerializeField] private GameObject answerButtonPrefab;
     [SerializeField] private List<AnswerButton> buttons;
 
+    private List<AnswerButton> whiteSpaceButtons;
     private GridLayoutGroup answerbarLayout;
     private string correctAnswer;
     private string currentAnswer;
@@ -17,7 +18,10 @@ public class AnswerBarAssigner : MonoBehaviour
     private int index = 0;
 
 
-
+    private void Awake()
+    {
+        whiteSpaceButtons = new List<AnswerButton>();
+    }
     public void SetUpAnswerbar(string letters, bool isEnglish)
     {
         /*To Avoid Confusion and Collision with input systm, we can make the following: 
@@ -41,6 +45,7 @@ public class AnswerBarAssigner : MonoBehaviour
             if (char.IsWhiteSpace(letterArray[charCounter]))
             {
                 newButton.Init(-charCounter, this);
+                whiteSpaceButtons.Add(newButton);
                 Debug.Log("New Whitespace Added");
 
             }
@@ -135,12 +140,17 @@ public class AnswerBarAssigner : MonoBehaviour
 
     public void ReRollBar()
     {
-        for(int i = 0; i < buttons.Count; i++)
-        {
-            Destroy(buttons[i].gameObject);
-        }
-        buttons.Clear();
+        ElimnateList(buttons);
+        ElimnateList(whiteSpaceButtons);
         currentAnswer = "";
         index = 0;
+    }
+    public void ElimnateList(List<AnswerButton> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Destroy(list[i].gameObject);
+        }
+        list.Clear();
     }
 }

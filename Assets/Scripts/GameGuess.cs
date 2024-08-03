@@ -8,11 +8,9 @@ public class GameGuess : MonoBehaviour
     private int maxCharacters = 25;
     private List<char> letters;
 
-    [SerializeField] private ButtonAssigner assigner;
-    [SerializeField] private AnswerBarAssigner answerBar;
+    [SerializeField] private AnswerLocalizationHandler answerLocalizer;
     [SerializeField] private GuessEntry testEntry;
     [SerializeField][Range( 1.1f , 2.5f)] private float characterIncreaseRate = 1.75f;
-    [SerializeField] private bool isEnglish;
 
     //Arabic Letters
     public static List<int> arabicLetterList = new ArabicLetterLibrary().addresses;
@@ -20,24 +18,26 @@ public class GameGuess : MonoBehaviour
     void Start()
     {
         letters = new List<char>();
-
-        Debug.Log("Genreating for Arabic Word: " + ArabicFixer.Fix(testEntry.nameAR));
-
-        Debug.Log("Genreating for English Word: " + testEntry.nameEN);
         GenerateLetters(testEntry);
 
     }
 
     private void GenerateLetters(GuessEntry level)
     {
-        string result = isEnglish ? level.nameEN : level.nameAR;
-        answerBar.SetUpAnswerbar(result, isEnglish);
-        ReturnLetterList(result);
+
+        GenerateLetters(level, true);
+        GenerateLetters(level, false);
 
     }
+    private void GenerateLetters(GuessEntry level , bool isEnglish)
+    {
+        string result = isEnglish ? level.nameEN : level.nameAR;
+        AnswerPair pair = answerLocalizer.GetPair(isEnglish);
+        pair.GetAnswerBar().SetUpAnswerbar(result, isEnglish);
+        ReturnLetterList(result, pair.GetKeyboard() , isEnglish);
+    }
 
-
-    private void ReturnLetterList(string brandname)
+    private void ReturnLetterList(string brandname, KeyboardManager assigner , bool isEnglish)
     {
         // Clear Previous Value and Create Char Array
         letters.Clear();
@@ -96,10 +96,7 @@ public class GameGuess : MonoBehaviour
             result += letter;
         return result;
     }
-    public bool isEnglishLang()
-    {
-        return isEnglish;
-    }
+
     public static char GetRandomChar(bool isEngllishChar)
     {
 
@@ -112,7 +109,7 @@ public class GameGuess : MonoBehaviour
     }
     public void ToggleLanguage()
     {
-        isEnglish = !isEnglish;
+       // isEnglish = !isEnglish;
         letters.Clear();
         GenerateLetters(testEntry);
     }

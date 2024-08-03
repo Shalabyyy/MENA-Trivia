@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ButtonAssigner : MonoBehaviour
+public class KeyboardManager : MonoBehaviour
 {
     [SerializeField] private GameObject answerButtonPrefab;
     [SerializeField] private List<LetterButton> buttons;

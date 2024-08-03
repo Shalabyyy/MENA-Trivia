@@ -2,39 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WildCardManager : MonoBehaviour
+public class WildCardManager : SingletonBehaviour<WildCardManager>
 {
+    private AnswerLocalizationHandler localizer;
 
-    private ButtonAssigner keyboard;
-    private AnswerBarAssigner answerBar;
-    private GameGuess generator;
 
     private void Start()
     {
-        keyboard = FindObjectOfType<ButtonAssigner>();
-        answerBar = FindObjectOfType<AnswerBarAssigner>();
-        generator = FindObjectOfType<GameGuess>();
+        localizer = FindObjectOfType<AnswerLocalizationHandler>();
+
 
     }
 
     [ContextMenu("Remove 50% of decoy letters")]
     public void ActivateFiftyPercentWildcard()
     {
-        answerBar.ClearAnswerBar();
-        keyboard.RemoveHalfTheLetters();
+        localizer.GetCurrentPair().GetAnswerBar().ClearAnswerBar();
+        localizer.GetCurrentPair().GetKeyboard().RemoveHalfTheLetters();
     }
     [ContextMenu("Clear bar and Add first 3 letters")]
     public void AddFirstThreeLetters()
     {
-        answerBar.ClearAnswerBar();
-        keyboard.AddFirstThreeLetters(answerBar.GetFirstCorrectThreeCharachters());
+        localizer.GetCurrentPair().GetAnswerBar().ClearAnswerBar();
+        localizer.GetCurrentPair().GetKeyboard().AddFirstThreeLetters(localizer.GetCurrentPair().GetAnswerBar().GetFirstCorrectThreeCharachters());
     }
 
     [ContextMenu("Re Roll Faulty Letters")]
     public void RerollDecoyCards()
     {
-        answerBar.ClearAnswerBar();
-        keyboard.ReRollFaultyLetterButtons(generator.isEnglishLang());
+        localizer.GetCurrentPair().GetAnswerBar().ClearAnswerBar();
+        localizer.GetCurrentPair().GetKeyboard().ReRollFaultyLetterButtons(localizer.isLanguageEnglish());
     }
-
+    public void ChangeLanguage()
+    {
+        //answerBar.ReRollBar();
+        //keyboard.OnLanguageChanged();
+        //generator.ToggleLanguage();
+    }
 }

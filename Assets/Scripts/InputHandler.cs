@@ -6,9 +6,9 @@ public class InputHandler : MonoBehaviour
 {
     // Start is called before the first frame update
     public static InputHandler instance;
-    [SerializeField] private AnswerBarAssigner answerBar;
-    [SerializeField] private ButtonAssigner keyboard;
+    [SerializeField] private AnswerLocalizationHandler localizer;
 
+    private AnswerBarAssigner localAnswerBarReference;
 
     // TO DO -> track pairs
     void Awake()
@@ -22,20 +22,27 @@ public class InputHandler : MonoBehaviour
     }
     public void LetterClicked(LetterButton letterButton)
     {
-        if (answerBar.isAnswerFull()) return;
+        UpdateAnswerBarLocalReference();
+
+        if (localAnswerBarReference.isAnswerFull()) return;
 
         Debug.Log("Clicked on letter " + letterButton.GetAssignedLetter());
-        answerBar.AddLetter(letterButton);
+        localAnswerBarReference.AddLetter(letterButton);
         letterButton.OnEntryAccepted();
 
     }
     public void LetterFrozen(LetterButton letterButton)
     {
-        if (answerBar.isAnswerFull()) return;
+        UpdateAnswerBarLocalReference();
+
+        if (localAnswerBarReference.isAnswerFull()) return;
 
         Debug.Log("Frozen letter " + letterButton.GetAssignedLetter());
-        answerBar.AddFrozenLetter(letterButton);
+        localAnswerBarReference.AddFrozenLetter(letterButton);
         letterButton.OnButtonFreezed();
     }
-    
+    private void UpdateAnswerBarLocalReference()
+    {
+        localAnswerBarReference = localizer.GetCurrentPair().GetAnswerBar();
+    }
 }
